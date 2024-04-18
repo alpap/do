@@ -1,5 +1,6 @@
 import {expect, test} from '@oclif/test'
 import fs from 'fs'
+import sortKeys from 'sort-keys'
 const demo_file = {
   result: [
     {
@@ -91,6 +92,10 @@ const demo_file = {
   a: 'b',
 }
 
+const sorted = sortKeys(demo_file)
+
+const sorted_deep = sortKeys(demo_file, {deep: true})
+
 describe('json sort', () => {
   beforeEach(async () => {
     fs.mkdirSync('mocks', {recursive: true})
@@ -104,44 +109,82 @@ describe('json sort', () => {
     fs.existsSync('mocks') && fs.rmSync('./mocks', {recursive: true, force: true})
   })
 
-  // test
-  //   .stdout()
-  //   .command(['json sort', './mocks/file.json'])
-  //   .it('runs json sort single', (ctx) => {
-  //     expect(ctx.stdout).to.contain('hello friend from oclif!')
-  //   })
+  test
+    .stdout()
+    .command(['json sort', './mocks/file.json'])
+    .it('runs json sort single', (ctx) => {
+      const file = fs.readFileSync('mocks/file.json', 'utf8')
+      expect(file).to.equal(JSON.stringify(sorted, null, 2))
+    })
 
-  // test
-  //   .stdout()
-  //   .command(['json sort', './mocks/file2.json', '--deep'])
-  //   .it('runs json sort single', (ctx) => {
-  //     expect(ctx.stdout).to.contain('hello friend from oclif!')
-  //   })
+  test
+    .stdout()
+    .command(['json sort', './mocks/file2.json', '--deep'])
+    .it('runs json sort single', (ctx) => {
+      const file = fs.readFileSync('mocks/file2.json', 'utf8')
+      expect(file).to.equal(JSON.stringify(sorted_deep, null, 2))
+    })
 
-  // test
-  //   .stdout()
-  //   .command(['json sort', './mocks'])
-  //   .it('runs json sort multiple', (ctx) => {
-  //     expect(ctx.stdout).to.contain('hello friend from oclif!')
-  //   })
+  test
+    .stdout()
+    .command(['json sort', './mocks/file2.json', '--output=./mocks/banana.json'])
+    .it('runs json sort single', (ctx) => {
+      const file = fs.readFileSync('./mocks/banana.json', 'utf8')
+      expect(file).to.equal(JSON.stringify(sorted, null, 2))
+    })
 
-  // test
-  //   .stdout()
-  //   .command(['json sort', './mocks', '--deep'])
-  //   .it('runs json sort multiple', (ctx) => {
-  //     expect(ctx.stdout).to.contain('hello friend from oclif!')
-  //   })
+  test
+    .stdout()
+    .command(['json sort', './mocks'])
+    .it('runs json sort multiple', (ctx) => {
+      const file = fs.readFileSync('mocks/file.json', 'utf8')
+      expect(file).to.equal(JSON.stringify(sorted, null, 2))
+      const file2 = fs.readFileSync('mocks/file2.json', 'utf8')
+      expect(file2).to.equal(JSON.stringify(sorted, null, 2))
+      const file3 = fs.readFileSync('mocks/file3.json', 'utf8')
+      expect(file3).to.equal(JSON.stringify(sorted, null, 2))
+      const file4 = fs.readFileSync('mocks/file4.json', 'utf8')
+      expect(file4).to.equal(JSON.stringify(sorted, null, 2))
+    })
 
-  // test
-  //   .stdout()
-  //   .command(['json sort', './mocks', '--deep', '--prepend=sorted'])
-  //   .it('runs json sort multiple', (ctx) => {
-  //     expect(ctx.stdout).to.contain('hello friend from oclif!')
-  //   })
-  // test
-  //   .stdout()
-  //   .command(['json sort', './mocks', '--deep', '-o ./mocks/sorted'])
-  //   .it('runs json sort multiple', (ctx) => {
-  //     expect(ctx.stdout).to.contain('hello friend from oclif!')
-  //   })
+  test
+    .stdout()
+    .command(['json sort', './mocks', '--deep'])
+    .it('runs json sort multiple deep', (ctx) => {
+      const file = fs.readFileSync('mocks/file.json', 'utf8')
+      expect(file).to.equal(JSON.stringify(sorted_deep, null, 2))
+      const file2 = fs.readFileSync('mocks/file2.json', 'utf8')
+      expect(file2).to.equal(JSON.stringify(sorted_deep, null, 2))
+      const file3 = fs.readFileSync('mocks/file3.json', 'utf8')
+      expect(file3).to.equal(JSON.stringify(sorted_deep, null, 2))
+      const file4 = fs.readFileSync('mocks/file4.json', 'utf8')
+      expect(file4).to.equal(JSON.stringify(sorted_deep, null, 2))
+    })
+
+  test
+    .stdout()
+    .command(['json sort', './mocks', '--deep', '--prepend=sorted'])
+    .it('runs json sort multiple deep prepend', (ctx) => {
+      const file = fs.readFileSync('mocks/sorted-file.json', 'utf8')
+      expect(file).to.equal(JSON.stringify(sorted_deep, null, 2))
+      const file2 = fs.readFileSync('mocks/sorted-file2.json', 'utf8')
+      expect(file2).to.equal(JSON.stringify(sorted_deep, null, 2))
+      const file3 = fs.readFileSync('mocks/sorted-file3.json', 'utf8')
+      expect(file3).to.equal(JSON.stringify(sorted_deep, null, 2))
+      const file4 = fs.readFileSync('mocks/sorted-file4.json', 'utf8')
+      expect(file4).to.equal(JSON.stringify(sorted_deep, null, 2))
+    })
+  test
+    .stdout()
+    .command(['json sort', './mocks', '--deep', '-o ./mocks/sorted'])
+    .it('runs json sort multiple deep output', (ctx) => {
+      const file = fs.readFileSync('mocks/sorted/file.json', 'utf8')
+      expect(file).to.equal(JSON.stringify(sorted_deep, null, 2))
+      const file2 = fs.readFileSync('mocks/sorted/file2.json', 'utf8')
+      expect(file2).to.equal(JSON.stringify(sorted_deep, null, 2))
+      const file3 = fs.readFileSync('mocks/sorted/file3.json', 'utf8')
+      expect(file3).to.equal(JSON.stringify(sorted_deep, null, 2))
+      const file4 = fs.readFileSync('mocks/sorted/file4.json', 'utf8')
+      expect(file4).to.equal(JSON.stringify(sorted_deep, null, 2))
+    })
 })
