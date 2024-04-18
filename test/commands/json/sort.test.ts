@@ -120,7 +120,15 @@ describe('json sort', () => {
   test
     .stdout()
     .command(['json sort', './mocks/file2.json', '--deep'])
-    .it('runs json sort single', (ctx) => {
+    .it('runs json sort single deep', (ctx) => {
+      const file = fs.readFileSync('mocks/file2.json', 'utf8')
+      expect(file).to.equal(JSON.stringify(sorted_deep, null, 2))
+    })
+
+  test
+    .stdout()
+    .command(['json sort', './mocks/file2.json', '--deep', '--verbose'])
+    .it('runs json sort single deep verbose', (ctx) => {
       const file = fs.readFileSync('mocks/file2.json', 'utf8')
       expect(file).to.equal(JSON.stringify(sorted_deep, null, 2))
     })
@@ -128,7 +136,7 @@ describe('json sort', () => {
   test
     .stdout()
     .command(['json sort', './mocks/file2.json', '--output=./mocks/banana.json'])
-    .it('runs json sort single', (ctx) => {
+    .it('runs json sort single output', (ctx) => {
       const file = fs.readFileSync('./mocks/banana.json', 'utf8')
       expect(file).to.equal(JSON.stringify(sorted, null, 2))
     })
