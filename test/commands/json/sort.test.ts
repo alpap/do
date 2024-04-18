@@ -92,12 +92,13 @@ const demo_file = {
 
 describe('json sort', () => {
   beforeEach(async () => {
-    fs.writeFileSync('file.json', JSON.stringify(demo_file, null, 2))
+    fs.mkdirSync('mocks', {recursive: true})
+    fs.writeFileSync('mocks/file.json', JSON.stringify(demo_file, null, 2))
   })
 
-  //   afterEach(async () => {
-  //     fs.existsSync('file.json') && fs.unlinkSync('file.json')
-  //   })
+  afterEach(async () => {
+    fs.existsSync('mocks') && fs.rmSync('./mocks', {recursive: true, force: true})
+  })
 
   test
     .stdout()

@@ -25,7 +25,10 @@
   ],
   "scripts": {
     "oclif": "oclif",
-    "build": "shx rm -rf dist && tsc -b && oclif pack",
+    "build": "shx rm -rf dist && tsc -b",
+    "pack:win": "oclif pack win",
+    "pack:macos": "oclif pack macos",
+    "pack:linux": "oclif pack linux",
     "lint": "eslint . --ext .ts",
     "prepack": "pnpm run build && oclif manifest && oclif readme",
     "postpack": "shx rm -f oclif.manifest.json",
