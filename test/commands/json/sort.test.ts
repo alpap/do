@@ -88,6 +88,7 @@ const demo_file = {
       objectId: '66215612756c94cae8897112',
     },
   ],
+  a: 'b',
 }
 
 describe('json sort', () => {
@@ -96,13 +97,13 @@ describe('json sort', () => {
     fs.writeFileSync('mocks/file.json', JSON.stringify(demo_file, null, 2))
   })
 
-  afterEach(async () => {
-    fs.existsSync('mocks') && fs.rmSync('./mocks', {recursive: true, force: true})
-  })
+  //   afterEach(async () => {
+  //     fs.existsSync('mocks') && fs.rmSync('./mocks', {recursive: true, force: true})
+  //   })
 
   test
     .stdout()
-    .command(['json:sort', './file.json'])
+    .command(['json sort', './mocks/file.json'])
     .it('runs json sort single', (ctx) => {
       expect(ctx.stdout).to.contain('hello friend from oclif!')
     })

@@ -41,9 +41,12 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
+* [`do autocomplete [SHELL]`](#do-autocomplete-shell)
+* [`do commands`](#do-commands)
 * [`do hello PERSON`](#do-hello-person)
 * [`do hello world`](#do-hello-world)
 * [`do help [COMMAND]`](#do-help-command)
+* [`do json sort FILES_OR_FOLDER`](#do-json-sort-files_or_folder)
 * [`do plugins`](#do-plugins)
 * [`do plugins add PLUGIN`](#do-plugins-add-plugin)
 * [`do plugins:inspect PLUGIN...`](#do-pluginsinspect-plugin)
@@ -54,6 +57,71 @@ USAGE
 * [`do plugins uninstall [PLUGIN]`](#do-plugins-uninstall-plugin)
 * [`do plugins unlink [PLUGIN]`](#do-plugins-unlink-plugin)
 * [`do plugins update`](#do-plugins-update)
+* [`do version`](#do-version)
+
+## `do autocomplete [SHELL]`
+
+Display autocomplete installation instructions.
+
+```
+USAGE
+  $ do autocomplete [SHELL] [-r]
+
+ARGUMENTS
+  SHELL  (zsh|bash|powershell) Shell type
+
+FLAGS
+  -r, --refresh-cache  Refresh cache (ignores displaying instructions)
+
+DESCRIPTION
+  Display autocomplete installation instructions.
+
+EXAMPLES
+  $ do autocomplete
+
+  $ do autocomplete bash
+
+  $ do autocomplete zsh
+
+  $ do autocomplete powershell
+
+  $ do autocomplete --refresh-cache
+```
+
+_See code: [@oclif/plugin-autocomplete](https://github.com/oclif/plugin-autocomplete/blob/v3.0.15/src/commands/autocomplete/index.ts)_
+
+## `do commands`
+
+list all the commands
+
+```
+USAGE
+  $ do commands [--json] [--deprecated] [-h] [--hidden] [--tree] [--columns <value> | -x] [--filter <value>]
+    [--no-header | [--csv | --no-truncate]] [--output csv|json|yaml |  | ] [--sort <value>]
+
+FLAGS
+  -h, --help             Show CLI help.
+  -x, --extended         show extra columns
+      --columns=<value>  only show provided columns (comma-separated)
+      --csv              output is csv format [alias: --output=csv]
+      --deprecated       show deprecated commands
+      --filter=<value>   filter property by partial string matching, ex: name=foo
+      --hidden           show hidden commands
+      --no-header        hide table header from output
+      --no-truncate      do not truncate output to fit screen
+      --output=<option>  output in a more machine friendly format
+                         <options: csv|json|yaml>
+      --sort=<value>     property to sort by (prepend '-' for descending)
+      --tree             show tree of commands
+
+GLOBAL FLAGS
+  --json  Format output as json.
+
+DESCRIPTION
+  list all the commands
+```
+
+_See code: [@oclif/plugin-commands](https://github.com/oclif/plugin-commands/blob/v3.3.1/src/commands/commands.ts)_
 
 ## `do hello PERSON`
 
@@ -116,6 +184,41 @@ DESCRIPTION
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v6.0.21/src/commands/help.ts)_
+
+## `do json sort FILES_OR_FOLDER`
+
+Sort the contents of .json files
+
+```
+USAGE
+  $ do json sort FILES_OR_FOLDER [-o <value>] [-p <value>] [-v <value>]
+
+ARGUMENTS
+  FILES_OR_FOLDER  Files or folder
+
+FLAGS
+  -o, --output=<value>   Output to file
+  -p, --prepend=<value>  Prepend to generated filenames
+  -v, --verbose=<value>  Verbose mode
+
+DESCRIPTION
+  Sort the contents of .json files
+
+EXAMPLES
+  Single file use
+  $ do json sort file.json
+  Single file use with selected output name
+  $ do json sort file.json --output sorted.json
+  Single file use with prepend
+  $ do json sort file.json --output sorted.json --prepend "sorted-"
+  Multifile files use
+  $ do json sort *.json
+  $ do json sort *.json --output ./sorted
+  $ do json sort ./ --output ./sorted
+  $ do json sort ./ --output ./sorted --prepend "sorted-"
+```
+
+_See code: [src/commands/json/sort.ts](https://github.com/sources/do/blob/v0.0.0/src/commands/json/sort.ts)_
 
 ## `do plugins`
 
@@ -405,6 +508,26 @@ DESCRIPTION
 ```
 
 _See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v5.0.11/src/commands/plugins/update.ts)_
+
+## `do version`
+
+```
+USAGE
+  $ do version [--json] [--verbose]
+
+FLAGS
+  --verbose  Show additional information about the CLI.
+
+GLOBAL FLAGS
+  --json  Format output as json.
+
+FLAG DESCRIPTIONS
+  --verbose  Show additional information about the CLI.
+
+    Additionally shows the architecture, node version, operating system, and versions of plugins that the CLI is using.
+```
+
+_See code: [@oclif/plugin-version](https://github.com/oclif/plugin-version/blob/v2.0.17/src/commands/version.ts)_
 <!-- commandsstop -->
 * [`oex hello PERSON`](#oex-hello-person)
 * [`oex hello world`](#oex-hello-world)
