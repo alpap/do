@@ -1,6 +1,10 @@
 import {Args, Command, Flags} from '@oclif/core'
 import fs from 'fs'
 import path from 'path'
+import sortKeys from 'sort-keys'
+import chalk from 'chalk'
+
+console.log(chalk.blue('Hello world!'))
 export default class Json extends Command {
   static args = {
     files_or_folder: Args.string({
@@ -33,7 +37,7 @@ $ do json sort ./ --output ./sorted --prepend "sorted-"
   static flags = {
     output: Flags.string({char: 'o', description: 'Output to file', required: false}),
     prepend: Flags.string({char: 'p', description: 'Prepend to generated filenames', required: false}),
-    verbose: Flags.string({char: 'v', description: 'Verbose mode', required: false}),
+    deep: Flags.boolean({char: 'd', description: 'Deep sort', required: false, default: false}),
   }
 
   async run(): Promise<void> {
@@ -50,19 +54,27 @@ $ do json sort ./ --output ./sorted --prepend "sorted-"
       existing_file_paths = files
     }
     for (const file_path of existing_file_paths) {
-      this.log(`Sorting ${file_path}`)
-      const file_contents = fs.readFileSync(file_path, 'utf8')
-      const json_contents = JSON.parse(file_contents)
-      const soreted_contents = sortKeysRecursive(json_contents)
-      this.saveFile(file_path, soreted_contents, flags.output, flags.prepend || '', existing_file_paths.length > 1)
+      try {
+        const file_contents = fs.readFileSync(file_path, 'utf8')
+        const json_contents = JSON.parse(file_contents)
+        const soreted_contents = sortKeys(json_contents, {deep: flags.deep})
+        this.saveFile(file_path, soreted_contents, flags.output, flags.prepend || '', existing_file_paths.length > 1)
+        this.log(chalk.green('[Success]'), file_path)
+      } catch (err: any) {
+        this.log(chalk.red('[Error]'), `${err.message}`)
+      }
     }
   }
 
   saveFile(file_path: string, contents: object, output: string = file_path, prepend: string | '', is_arr = false) {
-    if (is_arr && !fs.existsSync(output)) {
-      fs.mkdirSync(output, {recursive: true})
+    const dirname = path.dirname(output)
+    if (!fs.existsSync(dirname)) {
+      fs.mkdirSync(dirname, {recursive: true})
     }
-    const filename = path.join(path.dirname(file_path), prepend ? prepend + '-' : '', path.basename(file_path))
+    const filename = path.join(
+      output || path.dirname(file_path),
+      `${prepend ? prepend + '-' : ''}${path.basename(file_path)}`,
+    )
     fs.writeFileSync(filename, JSON.stringify(contents, null, 2), {encoding: 'utf8'})
   }
 

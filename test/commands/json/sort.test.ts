@@ -95,23 +95,53 @@ describe('json sort', () => {
   beforeEach(async () => {
     fs.mkdirSync('mocks', {recursive: true})
     fs.writeFileSync('mocks/file.json', JSON.stringify(demo_file, null, 2))
+    fs.writeFileSync('mocks/file2.json', JSON.stringify(demo_file, null, 2))
+    fs.writeFileSync('mocks/file3.json', JSON.stringify(demo_file, null, 2))
+    fs.writeFileSync('mocks/file4.json', JSON.stringify(demo_file, null, 2))
   })
 
   //   afterEach(async () => {
   //     fs.existsSync('mocks') && fs.rmSync('./mocks', {recursive: true, force: true})
   //   })
 
+  // test
+  //   .stdout()
+  //   .command(['json sort', './mocks/file.json'])
+  //   .it('runs json sort single', (ctx) => {
+  //     expect(ctx.stdout).to.contain('hello friend from oclif!')
+  //   })
+
+  // test
+  //   .stdout()
+  //   .command(['json sort', './mocks/file2.json', '--deep'])
+  //   .it('runs json sort single', (ctx) => {
+  //     expect(ctx.stdout).to.contain('hello friend from oclif!')
+  //   })
+
+  // test
+  //   .stdout()
+  //   .command(['json sort', './mocks'])
+  //   .it('runs json sort multiple', (ctx) => {
+  //     expect(ctx.stdout).to.contain('hello friend from oclif!')
+  //   })
+
+  // test
+  //   .stdout()
+  //   .command(['json sort', './mocks', '--deep'])
+  //   .it('runs json sort multiple', (ctx) => {
+  //     expect(ctx.stdout).to.contain('hello friend from oclif!')
+  //   })
+
+  // test
+  //   .stdout()
+  //   .command(['json sort', './mocks', '--deep', '--prepend=sorted'])
+  //   .it('runs json sort multiple', (ctx) => {
+  //     expect(ctx.stdout).to.contain('hello friend from oclif!')
+  //   })
   test
     .stdout()
-    .command(['json sort', './mocks/file.json'])
-    .it('runs json sort single', (ctx) => {
+    .command(['json sort', './mocks', '--deep', '-o ./mocks/sorted'])
+    .it('runs json sort multiple', (ctx) => {
       expect(ctx.stdout).to.contain('hello friend from oclif!')
     })
-
-  //   test
-  //     .stdout()
-  //     .command(['json', 'sort', '.'])
-  //     .it('runs json sort multiple', (ctx) => {
-  //       expect(ctx.stdout).to.contain('hello friend from oclif!')
-  //     })
 })
