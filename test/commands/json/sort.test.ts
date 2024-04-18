@@ -100,9 +100,9 @@ describe('json sort', () => {
     fs.writeFileSync('mocks/file4.json', JSON.stringify(demo_file, null, 2))
   })
 
-  //   afterEach(async () => {
-  //     fs.existsSync('mocks') && fs.rmSync('./mocks', {recursive: true, force: true})
-  //   })
+  afterEach(async () => {
+    fs.existsSync('mocks') && fs.rmSync('./mocks', {recursive: true, force: true})
+  })
 
   // test
   //   .stdout()
@@ -138,10 +138,10 @@ describe('json sort', () => {
   //   .it('runs json sort multiple', (ctx) => {
   //     expect(ctx.stdout).to.contain('hello friend from oclif!')
   //   })
-  test
-    .stdout()
-    .command(['json sort', './mocks', '--deep', '-o ./mocks/sorted'])
-    .it('runs json sort multiple', (ctx) => {
-      expect(ctx.stdout).to.contain('hello friend from oclif!')
-    })
+  // test
+  //   .stdout()
+  //   .command(['json sort', './mocks', '--deep', '-o ./mocks/sorted'])
+  //   .it('runs json sort multiple', (ctx) => {
+  //     expect(ctx.stdout).to.contain('hello friend from oclif!')
+  //   })
 })

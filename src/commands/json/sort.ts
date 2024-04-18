@@ -4,7 +4,6 @@ import path from 'path'
 import sortKeys from 'sort-keys'
 import chalk from 'chalk'
 
-console.log(chalk.blue('Hello world!'))
 export default class Json extends Command {
   static args = {
     files_or_folder: Args.string({
@@ -67,9 +66,12 @@ $ do json sort ./ --output ./sorted --prepend "sorted-"
   }
 
   saveFile(file_path: string, contents: object, output: string = file_path, prepend: string | '', is_arr = false) {
-    const dirname = path.dirname(output)
-    if (!fs.existsSync(dirname)) {
-      fs.mkdirSync(dirname, {recursive: true})
+    if (is_arr) {
+      try {
+        fs.mkdirSync(output, {recursive: true})
+      } catch (err) {
+        console.log(err)
+      }
     }
     const filename = path.join(
       output || path.dirname(file_path),
