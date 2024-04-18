@@ -11,12 +11,24 @@ importers:
       '@oclif/core':
         specifier: ^3
         version: 3.26.3
+      '@oclif/plugin-autocomplete':
+        specifier: ^3.0.15
+        version: 3.0.15
+      '@oclif/plugin-commands':
+        specifier: ^3.3.1
+        version: 3.3.1
       '@oclif/plugin-help':
         specifier: ^6
         version: 6.0.21
       '@oclif/plugin-plugins':
         specifier: ^5
         version: 5.0.11
+      '@oclif/plugin-version':
+        specifier: ^2.0.17
+        version: 2.0.17
+      '@oclif/plugin-warn-if-update-available':
+        specifier: ^3.0.15
+        version: 3.0.15
       prettier:
         specifier: ^3.2.5
         version: 3.2.5
@@ -339,6 +351,14 @@ packages:
     resolution: {integrity: sha512-e6Vwu+cb2Sn4qFFpmY1fQLRWIY5ugruMuN94xb7+kyUzxrirYjJATPhuCT1G5xj9Dk+hTMH+Sp6XcHcVTS1lHg==}
     engines: {node: '>=18.0.0'}
 
+  '@oclif/plugin-autocomplete@3.0.15':
+    resolution: {integrity: sha512-Q0XcqU3YQ6mAi8PGAfbsLBCquC6LmaxgMblxUlp6o3MvlsaO3tsQOWg20Mlciq4t+IX1r6VmP3L/EtkuJHFluQ==}
+    engines: {node: '>=18.0.0'}
+
+  '@oclif/plugin-commands@3.3.1':
+    resolution: {integrity: sha512-SikJBlXaVsbCX3A8YBdpU70VvU58P75+4vMt0AtJFEPYS1n+5srrLJgTrEFJkCfFvlqj1SNI9yMFr1TG+LKN9w==}
+    engines: {node: '>=18.0.0'}
+
   '@oclif/plugin-help@6.0.21':
     resolution: {integrity: sha512-w860r9d456xhw1GPaos9yQF+BZeFY9UKdrINbL3fZFX5ZHhr/zGT4Fep5wUkHogjjnSB8+ZHi3D6j2jScIizUw==}
     engines: {node: '>=18.0.0'}
@@ -349,6 +369,10 @@ packages:
 
   '@oclif/plugin-plugins@5.0.11':
     resolution: {integrity: sha512-es+IMNI97Jw+EX25r9ejrOph9R/8FbNXmWrH/NnhUJ3lNDpeMPM8njP4ovHYJi2+ta2VTHDxhQFNRDlNnUiyOw==}
+    engines: {node: '>=18.0.0'}
+
+  '@oclif/plugin-version@2.0.17':
+    resolution: {integrity: sha512-TJcObTcbZLW86prTopwRuc1qC/3gCINKSCHkNtGSU/MxiLGpWJUwpTT43Bmb2eJdfr0Oq0K2PmA0yL5P61c7yQ==}
     engines: {node: '>=18.0.0'}
 
   '@oclif/plugin-warn-if-update-available@3.0.15':
@@ -1730,11 +1754,20 @@ packages:
   lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
 
+  lodash.pickby@4.6.0:
+    resolution: {integrity: sha512-AZV+GsS/6ckvPOVQPXSiFFacKvKB4kOQu6ynt9wz0F3LO4R9Ij4K1ddYsIytDpSgLz88JHd9P+oaLeej5/Sl7Q==}
+
+  lodash.sortby@4.7.0:
+    resolution: {integrity: sha512-HDWXG8isMntAyRF5vZ7xKuEvOhT4AhlRt/3czTSjvGUxjYCBVRQY48ViDHyfYz9VIoBkW4TMGQNapx+l3RUwdA==}
+
   lodash.template@4.5.0:
     resolution: {integrity: sha512-84vYFxIkmidUiFxidA/KjjH9pAycqW+h980j7Fuz5qxRtO9pgB7MDFTdys1N7A5mcucRiDyEq4fusljItR1T/A==}
 
   lodash.templatesettings@4.2.0:
     resolution: {integrity: sha512-stgLz+i3Aa9mZgnjr/O+v9ruKZsPsndy7qPZOchbqk2cnTU1ZaldKK+v7m54WoKIyxiuMZTKT2H81F8BeAc3ZQ==}
+
+  lodash.uniqby@4.7.0:
+    resolution: {integrity: sha512-e/zcLx6CSbmaEgFHCA7BnoQKyCtKMxnuWrJygbwPs/AIn+IMKl66L8/s+wBUn5LRw2pZx3bUHibiV1b6aTWIww==}
 
   lodash@4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
@@ -3230,6 +3263,23 @@ snapshots:
       wordwrap: 1.0.0
       wrap-ansi: 7.0.0
 
+  '@oclif/plugin-autocomplete@3.0.15':
+    dependencies:
+      '@oclif/core': 3.26.3
+      chalk: 5.3.0
+      debug: 4.3.4(supports-color@8.1.1)
+      ejs: 3.1.10
+    transitivePeerDependencies:
+      - supports-color
+
+  '@oclif/plugin-commands@3.3.1':
+    dependencies:
+      '@oclif/core': 3.26.3
+      lodash.pickby: 4.6.0
+      lodash.sortby: 4.7.0
+      lodash.template: 4.5.0
+      lodash.uniqby: 4.7.0
+
   '@oclif/plugin-help@6.0.21':
     dependencies:
       '@oclif/core': 3.26.3
@@ -3254,6 +3304,10 @@ snapshots:
       yarn: 1.22.22
     transitivePeerDependencies:
       - supports-color
+
+  '@oclif/plugin-version@2.0.17':
+    dependencies:
+      '@oclif/core': 3.26.3
 
   '@oclif/plugin-warn-if-update-available@3.0.15':
     dependencies:
@@ -4940,6 +4994,10 @@ snapshots:
 
   lodash.merge@4.6.2: {}
 
+  lodash.pickby@4.6.0: {}
+
+  lodash.sortby@4.7.0: {}
+
   lodash.template@4.5.0:
     dependencies:
       lodash._reinterpolate: 3.0.0
@@ -4948,6 +5006,8 @@ snapshots:
   lodash.templatesettings@4.2.0:
     dependencies:
       lodash._reinterpolate: 3.0.0
+
+  lodash.uniqby@4.7.0: {}
 
   lodash@4.17.21: {}
 

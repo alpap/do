@@ -102,7 +102,7 @@ describe('json sort', () => {
 
   test
     .stdout()
-    .command(['json', 'sort', './file.json'])
+    .command(['json:sort', './file.json'])
     .it('runs json sort single', (ctx) => {
       expect(ctx.stdout).to.contain('hello friend from oclif!')
     })
