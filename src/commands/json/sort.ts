@@ -34,32 +34,56 @@ $ do json sort ./ --output ./sorted --prepend "sorted-"
   static flags = {
     output: Flags.string({char: 'o', description: 'Output to file', required: false}),
     prepend: Flags.string({char: 'p', description: 'Prepend to generated filenames', required: false}),
+    verbose: Flags.string({char: 'v', description: 'Verbose mode', required: false}),
   }
 
   async run(): Promise<void> {
     const {args, flags} = await this.parse(Json)
-    let files = args.files_or_folder.includes('') ? args.files_or_folder.split(' ') : args.files_or_folder
+    let files = args.files_or_folder.includes('') ? args.files_or_folder.split(' ') : [args.files_or_folder]
+
+    let existing_file_paths: string[] = []
 
     if (files.length > 1) {
+      files.every((file) => this.fileExists(file))
+      existing_file_paths = files
+    } else if (fs.lstatSync(files[0]).isDirectory()) {
+      const found_file_paths = await this.listFolderFiles(files[0])
+      existing_file_paths = found_file_paths.filter((path) => path.includes('.json'))
     }
 
-    this.log(`hello ${args.files_or_folder} from ${flags.from}! (./src/commands/hello/index.ts)`)
+    for (const file_path of existing_file_paths) {
+      this.log(`Sorting ${file_path}`)
+      this.fileExists(file_path)
+      const file_contents = fs.readFileSync(file_path, 'utf8')
+      const json_contents = JSON.parse(file_contents)
+      const object_depth = this.getObjectDepth(json_contents)
+      const soreted_contents = this.sortObjectKeys(json_contents, object_depth)
+      this.saveFile(file_path, soreted_contents, flags.output, flags.prepend || '', existing_file_paths.length > 1)
+    }
   }
 
-  private fileExists(filePath: string): boolean {
+  saveFile(file_path: string, contents: object, output: string = file_path, prepend: string | '', is_arr = false) {
+    if (is_arr && !fs.existsSync(output)) {
+      fs.mkdirSync(output, {recursive: true})
+    }
+    const filename = `${path.dirname(file_path)}/${prepend ? prepend + '-' : ''}${path.basename(file_path)}`
+    fs.writeFileSync(JSON.stringify(contents, null, 2), filename, {encoding: 'utf8'})
+  }
+
+  fileExists(filePath: string): boolean {
     try {
       return fs.statSync(filePath).isFile()
     } catch (err) {
-      return false
+      throw this.error(`File ${filePath} does not exist`)
     }
   }
 
-  private getObjectDepth(obj: object): any {
+  getObjectDepth(obj: object): any {
     //@ts-ignore
     return Object(obj) === obj ? 1 + Math.max(-1, ...Object.values(obj).map(this.getObjectDepth)) : 0
   }
 
-  private sortObjectKeys(obj: any, level = 10): any {
+  sortObjectKeys(obj: any, level = 10): any {
     if (typeof obj !== 'object' || obj === null) return obj
     if (level == 0) return obj // avoid infinite loop
     const sortedObj: any = Array.isArray(obj) ? [] : {}
@@ -71,15 +95,7 @@ $ do json sort ./ --output ./sorted --prepend "sorted-"
     return sortedObj
   }
 
-  private async readJsonFile(filePath: string): Promise<object> {
-    if (!this.fileExists(filePath)) {
-      throw new Error(`File ${filePath} does not exist`)
-    }
-    const content = await fs.promises.readFile(filePath, 'utf8')
-    return JSON.parse(content)
-  }
-
-  private async listFolderFiles(folderPath: string): Promise<string[]> {
+  async listFolderFiles(folderPath: string): Promise<string[]> {
     const files = await fs.promises.readdir(folderPath)
     const filesAndFolders = await Promise.all(
       files.map(async (file) => {
