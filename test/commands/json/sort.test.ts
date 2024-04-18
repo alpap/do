@@ -11,7 +11,14 @@ const demo_file = {
       },
       username: 'Autumn-Reichert',
       password: 'ZiAU9h0q1Y2CDS1',
-      emails: ['Landen_Johnston@gmail.com', 'Kyleigh98@gmail.com'],
+      emails: [
+        'Landen_Johnston@gmail.com',
+        'Kyleigh98@gmail.com',
+        'Kyleigh98@gmail.com',
+        'Kyleigh98@gmail.com',
+        'Kyleigh98@gmail.com',
+        'banana@namsd.ds',
+      ],
       phoneNumber: '212.618.8842 x59933',
       location: {
         street: '63083 Marlon Grove',
@@ -85,7 +92,7 @@ const demo_file = {
 
 describe('json sort', () => {
   beforeEach(async () => {
-    fs.writeFileSync('file.json', JSON.stringify(demo_file))
+    fs.writeFileSync('file.json', JSON.stringify(demo_file, null, 2))
   })
 
   //   afterEach(async () => {
