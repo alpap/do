@@ -1,10 +1,10 @@
 import {Args, Command, Flags} from '@oclif/core'
 import fs from 'fs'
-import path from 'path'
+import utilities from '../../utilities/filesystem.js'
 import sortKeys from 'sort-keys'
 import chalk from 'chalk'
 
-export default class Json extends Command {
+export default class JsonSort extends Command {
   static args = {
     files_or_folder: Args.string({
       name: 'files_or_folder',
@@ -53,7 +53,7 @@ $ do json sort ./ --output ./sorted --prepend "sorted-"
   }
 
   async run(): Promise<void> {
-    const {args, flags} = await this.parse(Json)
+    const {args, flags} = await this.parse(JsonSort)
     if (flags.verbose) {
       console.log({args, flags})
     }
@@ -62,10 +62,10 @@ $ do json sort ./ --output ./sorted --prepend "sorted-"
     let existing_file_paths: string[] = []
 
     if (files.length == 1 && fs.lstatSync(files[0]).isDirectory()) {
-      const found_file_paths = await this.listFolderFiles(files[0])
-      existing_file_paths = found_file_paths.filter((path) => path.includes('.json'))
+      const found_file_paths = await utilities.listFolderFiles(files[0])
+      existing_file_paths = found_file_paths.filter((path: string) => path.includes('.json'))
     } else {
-      files.every((file) => this.fileExists(file))
+      files.every((file: string) => utilities.fileExists(file))
       existing_file_paths = files
     }
     for (const file_path of existing_file_paths) {
@@ -81,45 +81,11 @@ $ do json sort ./ --output ./sorted --prepend "sorted-"
             console.log(err)
           }
         }
-        this.saveFile(file_path, soreted_contents, output, flags.prepend || '')
+        utilities.saveFile(file_path, soreted_contents, output, flags.prepend || '')
         this.log(chalk.green('[Success]'), file_path)
       } catch (err: any) {
         this.log(chalk.red('[Error]'), `${err.message}`)
       }
     }
-  }
-
-  saveFile(file_path: string, contents: object, output: string = file_path, prepend: string | '') {
-    let filename = ''
-    if (output.endsWith('.json')) {
-      filename = output
-    } else {
-      filename = path.join(
-        output || path.dirname(file_path),
-        `${prepend ? prepend + '-' : ''}${path.basename(file_path)}`,
-      )
-    }
-
-    fs.writeFileSync(filename, JSON.stringify(contents, null, 2), {encoding: 'utf8'})
-  }
-
-  fileExists(filePath: string): boolean {
-    try {
-      return fs.statSync(filePath).isFile()
-    } catch (err) {
-      throw this.error(`File ${filePath} does not exist`)
-    }
-  }
-
-  async listFolderFiles(folderPath: string): Promise<string[]> {
-    const files = await fs.promises.readdir(folderPath)
-    const filesAndFolders = await Promise.all(
-      files.map(async (file) => {
-        const filePath = path.join(folderPath, file)
-        const stats = await fs.promises.stat(filePath)
-        return stats.isDirectory() ? this.listFolderFiles(filePath) : filePath
-      }),
-    )
-    return filesAndFolders.flat()
   }
 }
