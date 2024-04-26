@@ -85,6 +85,7 @@ $ do json remove ./* --keys key_1,key_2.key3 --output ./extracted --prepend "ext
         for (const key of flags.keys) {
           delete json_contents[key]
         }
+        // delete_keys(json_contents, flags.keys)
         // to here
         const output = flags.output.startsWith('./') ? flags.output.substring(2) : flags.output
         if (existing_file_paths.length > 1) {
@@ -103,7 +104,7 @@ $ do json remove ./* --keys key_1,key_2.key3 --output ./extracted --prepend "ext
   }
 }
 
-function delete_key(json: object, path: Array<string | number>) {
+function delete_keys(json: object, path: Array<string | number>) {
   if (path.length === 0) return
   const path_arr = path
   const selected_key = path_arr.shift()
@@ -111,9 +112,11 @@ function delete_key(json: object, path: Array<string | number>) {
   for (const key of Object.keys(json)) {
     if (key === selected_key) {
       if (path.length !== 0) {
+        // @ts-ignore
         delete_key(json[key], path_arr)
         return
       }
+      // @ts-ignore
       delete json[selected_key]
       return
     }
