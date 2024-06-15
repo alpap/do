@@ -24,8 +24,8 @@ dependencies:
     specifier: ^2.0.17
     version: 2.0.17
   '@oclif/plugin-warn-if-update-available':
-    specifier: ^3.0.15
-    version: 3.0.15
+    specifier: ^3.1.5
+    version: 3.1.5
   chalk:
     specifier: ^5.3.0
     version: 5.3.0
@@ -981,6 +981,28 @@ packages:
       wordwrap: 1.0.0
       wrap-ansi: 7.0.0
 
+  /@oclif/core@4.0.6:
+    resolution: {integrity: sha512-z/4YUVQsf2pHsXRze5etbmvAYDhoUhIzpM6oJGEdsdWfvQJ6YQBogH7TdX/ItuGda6+vpfXg/4U1CtPexSF+bA==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      ansi-escapes: 4.3.2
+      ansis: 3.2.0
+      clean-stack: 3.0.1
+      cli-spinners: 2.9.2
+      debug: 4.3.5(supports-color@8.1.1)
+      ejs: 3.1.10
+      get-package-type: 0.1.0
+      globby: 11.1.0
+      indent-string: 4.0.0
+      is-wsl: 2.2.0
+      lilconfig: 3.1.2
+      minimatch: 9.0.4
+      string-width: 4.2.3
+      supports-color: 8.1.1
+      widest-line: 3.1.0
+      wordwrap: 1.0.0
+      wrap-ansi: 7.0.0
+
   /@oclif/plugin-autocomplete@3.0.15:
     resolution: {integrity: sha512-Q0XcqU3YQ6mAi8PGAfbsLBCquC6LmaxgMblxUlp6o3MvlsaO3tsQOWg20Mlciq4t+IX1r6VmP3L/EtkuJHFluQ==}
     engines: {node: '>=18.0.0'}
@@ -1044,15 +1066,15 @@ packages:
       '@oclif/core': 3.26.4
     dev: false
 
-  /@oclif/plugin-warn-if-update-available@3.0.15:
-    resolution: {integrity: sha512-JtPTJFjL6izMCe5dDS2ix2PyWAD2DeJ5Atzd2HHRifbPcmOxaUE62FKTnarIwfPHLMF/nN33liwo9InAdirozg==}
+  /@oclif/plugin-warn-if-update-available@3.1.5:
+    resolution: {integrity: sha512-WNWq1co1McIqxE/kovrslZfdIMNvaruaDgxflvN3JganabfBLMDfdsH9TalApkmtT8X9UBEZH/j9YUDNNMqLnw==}
     engines: {node: '>=18.0.0'}
     dependencies:
-      '@oclif/core': 3.26.4
-      chalk: 5.3.0
-      debug: 4.3.4(supports-color@8.1.1)
+      '@oclif/core': 4.0.6
+      ansis: 3.2.0
+      debug: 4.3.5(supports-color@8.1.1)
       http-call: 5.3.0
-      lodash.template: 4.5.0
+      lodash: 4.17.21
     transitivePeerDependencies:
       - supports-color
 
@@ -1853,6 +1875,10 @@ packages:
   /ansicolors@0.3.2:
     resolution: {integrity: sha512-QXu7BPrP29VllRxH8GwB7x5iX5qWKAAMLqKQGWTeLWVlNHNOpVMJ91dsxQAIWXpjuW5wqvxu3Jd/nRjrJ+0pqg==}
 
+  /ansis@3.2.0:
+    resolution: {integrity: sha512-Yk3BkHH9U7oPyCN3gL5Tc7CpahG/+UFv/6UG03C311Vy9lzRmA5uoxDTpU9CO3rGHL6KzJz/pdDeXZCZ5Mu/Sg==}
+    engines: {node: '>=15'}
+
   /anymatch@3.1.3:
     resolution: {integrity: sha512-KMReFUr0B4t+D+OBkjR3KYqvocp2XaSzO55UcB6mgQMd3KbcE+mWTyvVV7D/zsdEbNnV6acZUutkiHQXvTr1Rw==}
     engines: {node: '>= 8'}
@@ -2170,7 +2196,6 @@ packages:
   /cli-spinners@2.9.2:
     resolution: {integrity: sha512-ywqV+5MmyL4E7ybXgKys4DugZbX0FC6LnwrhjuykIjnK9k8OQacQ7axGKnjDXWNhns0xot3bZI5h55H8yo9cJg==}
     engines: {node: '>=6'}
-    dev: true
 
   /cli-width@4.1.0:
     resolution: {integrity: sha512-ouuZd4/dm2Sw5Gmqy6bGyNNNe1qt9RpmxveLSO7KcgsTnU7RXfsw+/bukWGo1abgBiMAic068rclZsO4IWmmxQ==}
@@ -2288,6 +2313,18 @@ packages:
 
   /debug@4.3.4(supports-color@8.1.1):
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
+    engines: {node: '>=6.0'}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+    dependencies:
+      ms: 2.1.2
+      supports-color: 8.1.1
+
+  /debug@4.3.5(supports-color@8.1.1):
+    resolution: {integrity: sha512-pt0bNEmneDIvdL1Xsd9oDQ/wrQRkXDT4AUWlNZNPKvW5x/jyO9VFXkJUP07vQ2upmw5PlaITaPKc31jK13V+jg==}
     engines: {node: '>=6.0'}
     peerDependencies:
       supports-color: '*'
@@ -3318,7 +3355,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       content-type: 1.0.5
-      debug: 4.3.4(supports-color@8.1.1)
+      debug: 4.3.5(supports-color@8.1.1)
       is-retry-allowed: 1.2.0
       is-stream: 2.0.1
       parse-json: 4.0.0
@@ -3661,6 +3698,10 @@ packages:
       type-check: 0.4.0
     dev: true
 
+  /lilconfig@3.1.2:
+    resolution: {integrity: sha512-eop+wDAvpItUys0FWkHIKeC9ybYrTGbU41U5K7+bttZZeohvnY7M9dZ5kB21GNWiFT2q1OoPTvncPCgSOVO5ow==}
+    engines: {node: '>=14'}
+
   /lines-and-columns@1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
     dev: true
@@ -3715,7 +3756,6 @@ packages:
 
   /lodash@4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
-    dev: true
 
   /log-symbols@4.1.0:
     resolution: {integrity: sha512-8XPvpAA8uyhfteu8pIvQxpJZ7SYYdpUivZpGy6sFsBuKRY/7rQGavedeB8aK+Zkyq6upMFVL/9AW6vOYzfRyLg==}
@@ -4087,7 +4127,7 @@ packages:
       '@oclif/core': 3.26.4
       '@oclif/plugin-help': 6.0.21
       '@oclif/plugin-not-found': 3.1.4
-      '@oclif/plugin-warn-if-update-available': 3.0.15
+      '@oclif/plugin-warn-if-update-available': 3.1.5
       async-retry: 1.3.3
       chalk: 4.1.2
       change-case: 4.1.2
